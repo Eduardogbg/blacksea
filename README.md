@@ -32,9 +32,9 @@ The current version uses IllumineX's confidential ERC20 tokens to guarantee anon
 The app is live at the Oasis Sapphire Testnet at the following addresses:
 | Contract  | Address |
 | ------------- | ------------- |
-| Token FakeETH  | insert  |
-| Token BS  | insert  |
-| BlackSea Core  | insert  |
+| Token FakeETH  | 0x92079Bb2A3791c5e908e41C5c3Da79038A3A2B1D  |
+| Token BS  | 0xF5F0225C9025A793f97bA56739aF2DFB3F609d23  |
+| BlackSea Core  | 0x73E2A8F54CE305A82a822A322E8afbF1d90A3aF3  |
 
 You can test it by running the following steps:
 1. Create an Ethereum compatible keypair, add Sapphire testnet $ROSA to it using the [faucet](https://faucet.testnet.oasis.dev/) (remember to select Sapphire)
