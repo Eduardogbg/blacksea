@@ -38,8 +38,7 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
     function _isAllowedByPrivacyPolicy(address owner) private view returns (bool) {
         return _msgSender() == owner 
             || msg.sender == address(this) 
-            || hasAccess(owner, _msgSender(), LuminexPrivacyPolicy.PrivacyPolicy.Reveal) 
-            || msg.sender == address(balanceRegistry);
+            || hasAccess(owner, _msgSender(), LuminexPrivacyPolicy.PrivacyPolicy.Reveal);
     }
 
     function totalSupply() public view virtual override returns (uint256) {
@@ -112,7 +111,7 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
         }
 
         _balances[to] += amount;
-        balanceRegistry.onTransfer(to, from, _balances[from]);
+        // balanceRegistry.onTransfer(to, from, _balances[from]);
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
@@ -136,13 +135,18 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
         _balances[to] += amount;
         _globalTotalSupply += amount;
 
-        balanceRegistry.onTransfer(to, address(0), 0);
+        // balanceRegistry.onTransfer(to, address(0), 0);
     }
 
     function _burn(address from, uint256 amount) internal {
         _balances[from] -= amount;
         _globalTotalSupply -= amount;
 
-        balanceRegistry.onTransfer(address(0), from, _balances[from]);
+        // balanceRegistry.onTransfer(address(0), from, _balances[from]);
+    }
+
+    // for testing purposes only
+    function mint(address to, uint256 amount) external {
+        _mint(to, amount);
     }
 }

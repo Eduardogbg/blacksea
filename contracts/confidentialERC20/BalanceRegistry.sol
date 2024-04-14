@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-import "../illuminex/op/celer/safeguard/Ownable.sol";
+import "./Ownable.sol";
 import "./PrivateWrapper.sol";
 import "./ERC2771Context.sol";
 
