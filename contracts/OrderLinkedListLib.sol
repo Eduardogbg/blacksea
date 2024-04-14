@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-library Order {
+library OrderLinkedListLib {
     struct OrderNode {
-        uint256 amount;
+        uint256 orderId;
         address owner;
+        uint256 size;
         uint256 next;
     }
 
@@ -26,22 +27,34 @@ library Order {
         return list.nodes[list.currentIndex];
     }
 
+    function hasCurrent(
+        OrderLinkedList storage list
+    ) internal view returns (bool) {
+        return list.currentIndex != 0;
+    }
+
     function shift(OrderLinkedList storage list) internal {
         OrderNode storage node = getCurrentNode(list);
         list.currentIndex = node.next;
+
+        delete list.nodes[node.orderId];
     }
 
     function append(
         OrderLinkedList storage list,
-        OrderNode calldata node
+        OrderNode memory node
     ) internal {
         assert(node.next == 0);
+        list.nodes[node.orderId] = node;
 
-        OrderNode storage previousLast = list.nodes[list.last];
-        assert(previousLast.next == 0);
+        if (list.last != 0) {
+            OrderNode storage previousLast = list.nodes[list.last];
+            assert(previousLast.next == 0);
+            previousLast.next = node.orderId;
+        }
 
-        list.last += 1;
-        list.nodes[list.last] = node;
-        previousLast.next = list.last;
+        if (list.currentIndex == 0) {
+            list.currentIndex = node.orderId;
+        }
     }
 }

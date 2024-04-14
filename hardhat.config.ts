@@ -3,7 +3,14 @@ import "@nomicfoundation/hardhat-toolbox";
 import '@oasisprotocol/sapphire-hardhat';
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.20",
+  solidity: {
+    version: "0.8.19",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 1000,
+      },
+      viaIR: true,
   networks: {
     'sapphire-testnet': {
       // This is Testnet! If you want Mainnet, add a new network config item.

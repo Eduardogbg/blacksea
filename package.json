@@ -11,5 +11,8 @@
     "@oasisprotocol/sapphire-hardhat": "^2.19.4",
     "@openzeppelin/contracts": "^5.0.2",
     "hardhat": "^2.22.2"
+  },
+  "dependencies": {
+    "solady": "^0.0.188"
   }
 }
