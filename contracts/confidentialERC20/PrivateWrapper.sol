@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -15,12 +15,22 @@ contract PrivateWrapper is PrivateERC20 {
 
     ERC20 public immutable baseToken;
 
-    constructor(ERC20 _baseToken, address _multicall, ConfidentialBalanceRegistry balanceRegistry) PrivateERC20(PrivateERC20Config(
-        true,
-        string(abi.encodePacked("p", _baseToken.name())),
-        string(abi.encodePacked("p", _baseToken.symbol())),
-        _baseToken.decimals()
-    ), _multicall, balanceRegistry) {
+    constructor(
+        ERC20 _baseToken,
+        address _multicall,
+        ConfidentialBalanceRegistry balanceRegistry
+    )
+        PrivateERC20(
+            PrivateERC20Config(
+                true,
+                string(abi.encodePacked("p", _baseToken.name())),
+                string(abi.encodePacked("p", _baseToken.symbol())),
+                _baseToken.decimals()
+            ),
+            _multicall,
+            balanceRegistry
+        )
+    {
         baseToken = _baseToken;
     }
 

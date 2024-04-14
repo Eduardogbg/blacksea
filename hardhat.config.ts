@@ -4,7 +4,7 @@ import '@oasisprotocol/sapphire-hardhat';
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.19",
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,

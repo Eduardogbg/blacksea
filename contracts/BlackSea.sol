@@ -1,18 +1,50 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
 import "hardhat/console.sol";
-import "./BokkyPooBahsRedBlackTreeLibrary.sol";
 
-contract BlackSea {
-    constructor() public {}
+import {RedBlackTreeLib} from "./libraries/RedBlackTreeLib.sol";
+import {OrderLinkedListLib} from "./libraries/OrderLinkedListLib.sol";
+import {FixedPointMathLib} from "./libraries/FixedPointMathLib.sol";
+import {OrdersLib} from "./libraries/OrdersLib.sol";
+import {IBlackSea} from "./interfaces/IBlackSea.sol";
 
-    function placeOrder() external {
+contract BlackSea is IBlackSea {
+    using RedBlackTreeLib for RedBlackTreeLib.Tree;
+    using OrderLinkedListLib for OrderLinkedListLib.OrderLinkedList;
+    using OrderLinkedListLib for OrderLinkedListLib.OrderNode;
+    using OrdersLib for OrdersLib.PairSideOrders;
+    using OrdersLib for OrdersLib.Order;
 
+    OrdersLib.PairSideOrders ordersAssetA;
+    OrdersLib.PairSideOrders ordersAssetB;
+
+    address assetA;
+    address assetB;
+
+    constructor(address addressA, address addressB) {
+        assetA = addressA;
+        assetB = addressB;
     }
 
-    function cancelOrder() external {
+    function placeOrder(
+        address sellToken,
+        // OrdersLib.Order(
+        //     orderId,
+        //     msg.sender,
+        //     FixedPointMathLib.divWad(buyToken, sellToken),
+        //     sellQuantity
+        // );
+        OrdersLib.Order calldata order
+    ) external {
+        if (sellToken == assetA) {
+            ordersAssetA.appendOrder(order, ordersAssetB);
+        }
 
+        if (sellToken == assetB) {
+            ordersAssetB.appendOrder(order, ordersAssetA);
+        }
+
+        revert("unsupported token");
     }
-    
 }
