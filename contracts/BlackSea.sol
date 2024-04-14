@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.19;
 
 import "hardhat/console.sol";
 
@@ -39,10 +39,12 @@ contract BlackSea is IBlackSea {
     ) external {
         if (sellToken == assetA) {
             ordersAssetA.appendOrder(order, ordersAssetB);
+            return;
         }
 
         if (sellToken == assetB) {
             ordersAssetB.appendOrder(order, ordersAssetA);
+            return;
         }
 
         revert("unsupported token");

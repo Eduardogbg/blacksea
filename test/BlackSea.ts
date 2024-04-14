@@ -13,11 +13,13 @@ const WAD = BigInt(1e18);
 
 describe(CONTRACT_NAME, function () {
   async function darkOrderbookFixture() {
-    const [owner] = await ethers.getSigners();
+    const [owner, other] = await ethers.getSigners();
     const BlackSea = await ethers.getContractFactory(CONTRACT_NAME);
 
     return {
-      blacksea: await BlackSea.deploy("", ""),
+      blacksea: await BlackSea.deploy(
+        "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F",
+        "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F"),
       owner
     }
   }
@@ -50,7 +52,10 @@ describe(CONTRACT_NAME, function () {
         }
       ];
 
-      const abacaba = await blacksea.placeOrder("", ordersA[0]);
+      const abacaba = await blacksea.placeOrder(
+        "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F",
+        ordersA[0]
+      );
     });
   });
 });
