@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
 import "hardhat/console.sol";
 import "./interfaces/IERC20.sol";
 
 contract SettlementEngine {
-    constructor() public {}
-
     function _escrowFunds(
         IERC20 _token,
         address _trader,

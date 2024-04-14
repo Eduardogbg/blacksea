@@ -4,13 +4,18 @@
     "compile": "hardhat compile",
     "test:unit": "hardhat test",
     "test:integration": "hardhat run scripts/localTokenTest.ts --network sapphire-local",
-    "devnet": "docker run -it -p8545:8545 -p8546:8546 ghcr.io/oasisprotocol/sapphire-localnet -to \"bench remain brave curve frozen verify dream margin alarm world repair innocent\""
+    "devnet": "docker run -it -p8545:8545 -p8546:8546 ghcr.io/oasisprotocol/sapphire-localnet -to \"bench remain brave curve frozen verify dream margin alarm world repair innocent\"",
+    "token-mint": "hardhat mintTokens",
+    "token-check": "hardhat checkBalance",
+    "order-check": "hardhat checkOrders",
+    "order-send": "hardhat placeOrder"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "@oasisprotocol/sapphire-contracts": "^0.2.8",
     "@oasisprotocol/sapphire-hardhat": "^2.19.4",
     "@openzeppelin/contracts": "^5.0.2",
+    "dotenv": "^16.4.5",
     "hardhat": "^2.22.2"
   },
   "dependencies": {

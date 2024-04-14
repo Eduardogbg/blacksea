@@ -5,26 +5,26 @@ import {
 import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { OrdersLib } from "../typechain-types/DarkOrderbook";
+import { OrdersLib } from "../typechain-types/contracts/BlackSea";
 
-const CONTRACT_NAME = "DarkOrderbook";
+const CONTRACT_NAME = "BlackSea";
 
 const WAD = BigInt(1e18);
 
 describe(CONTRACT_NAME, function () {
   async function darkOrderbookFixture() {
     const [owner] = await ethers.getSigners();
-    const DarkOrderbook = await ethers.getContractFactory(CONTRACT_NAME);
+    const BlackSea = await ethers.getContractFactory(CONTRACT_NAME);
 
     return {
-      orderbook: await DarkOrderbook.deploy(),
+      blacksea: await BlackSea.deploy("", ""),
       owner
     }
   }
 
   describe("abacaba", () => {
     it("tree insert then max works", async function () {
-      const { orderbook, owner } = await loadFixture(darkOrderbookFixture);
+      const { blacksea, owner } = await loadFixture(darkOrderbookFixture);
 
       const ordersA: OrdersLib.OrderStruct[] = [
         {
@@ -36,7 +36,7 @@ describe(CONTRACT_NAME, function () {
         {
           orderId: 2,
           owner,
-          price: BigInt(5) * WAD / BigInt(6),
+          price: BigInt(6) * WAD / BigInt(5),
           size: WAD,
         }
       ];
@@ -50,7 +50,7 @@ describe(CONTRACT_NAME, function () {
         }
       ];
 
-      const abacaba = await orderbook.abacaba(ordersA, ordersB);
+      const abacaba = await blacksea.placeOrder("", ordersA[0]);
     });
   });
 });

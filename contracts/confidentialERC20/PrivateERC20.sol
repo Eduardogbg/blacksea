@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -27,7 +27,11 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
 
     uint256 internal _globalTotalSupply;
 
-    constructor(PrivateERC20Config memory _config, address _multicall, ConfidentialBalanceRegistry _balanceRegistry) ERC2771Context(_multicall) {
+    constructor(
+        PrivateERC20Config memory _config,
+        address _multicall,
+        ConfidentialBalanceRegistry _balanceRegistry
+    ) ERC2771Context(_multicall) {
         name = _config.name;
         symbol = _config.symbol;
         decimals = _config.decimals;
@@ -35,17 +39,26 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
         balanceRegistry = _balanceRegistry;
     }
 
-    function _isAllowedByPrivacyPolicy(address owner) private view returns (bool) {
-        return _msgSender() == owner 
-            || msg.sender == address(this) 
-            || hasAccess(owner, _msgSender(), LuminexPrivacyPolicy.PrivacyPolicy.Reveal);
+    function _isAllowedByPrivacyPolicy(
+        address owner
+    ) private view returns (bool) {
+        return
+            _msgSender() == owner ||
+            msg.sender == address(this) ||
+            hasAccess(
+                owner,
+                _msgSender(),
+                LuminexPrivacyPolicy.PrivacyPolicy.Reveal
+            );
     }
 
     function totalSupply() public view virtual override returns (uint256) {
         return totalSupplyVisible ? _globalTotalSupply : 0;
     }
 
-    function balanceOf(address account) public view virtual override returns (uint256) {
+    function balanceOf(
+        address account
+    ) public view virtual override returns (uint256) {
         if (!_isAllowedByPrivacyPolicy(account)) {
             return 0;
         }
@@ -53,7 +66,10 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
         return _balances[account];
     }
 
-    function allowance(address owner, address spender) public view virtual override returns (uint256) {
+    function allowance(
+        address owner,
+        address spender
+    ) public view virtual override returns (uint256) {
         if (!_isAllowedByPrivacyPolicy(owner)) {
             return 0;
         }
@@ -65,18 +81,17 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
         return _allowances[owner][spender];
     }
 
-    function _approve(
-        address owner,
-        address spender,
-        uint256 amount
-    ) internal {
+    function _approve(address owner, address spender, uint256 amount) internal {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
         _allowances[owner][spender] = amount;
     }
 
-    function approve(address spender, uint256 amount) public virtual override returns (bool) {
+    function approve(
+        address spender,
+        uint256 amount
+    ) public virtual override returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, amount);
         return true;
@@ -89,7 +104,10 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
     ) internal virtual {
         uint256 currentAllowance = _allowances[owner][spender];
         if (currentAllowance != type(uint256).max) {
-            require(currentAllowance >= amount, "ERC20: insufficient allowance");
+            require(
+                currentAllowance >= amount,
+                "ERC20: insufficient allowance"
+            );
             unchecked {
                 _approve(owner, spender, currentAllowance - amount);
             }
@@ -105,7 +123,10 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
         require(to != address(0), "ERC20: transfer to the zero address");
 
         uint256 fromBalance = _balances[from];
-        require(fromBalance >= amount, "ERC20: transfer amount exceeds balance");
+        require(
+            fromBalance >= amount,
+            "ERC20: transfer amount exceeds balance"
+        );
         unchecked {
             _balances[from] = fromBalance - amount;
         }
@@ -114,7 +135,10 @@ contract PrivateERC20 is IERC20, ERC2771Context, LuminexPrivacyPolicy {
         // balanceRegistry.onTransfer(to, from, _balances[from]);
     }
 
-    function transfer(address to, uint256 amount) public virtual override returns (bool) {
+    function transfer(
+        address to,
+        uint256 amount
+    ) public virtual override returns (bool) {
         address owner = msg.sender;
         _transfer(owner, to, amount);
         return true;

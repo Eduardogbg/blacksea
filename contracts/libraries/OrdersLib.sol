@@ -15,7 +15,7 @@ library OrdersLib {
     struct Order {
         uint256 orderId;
         address owner;
-        // quoted asset / base asset
+        // base asset / quoted asset
         uint256 price;
         uint256 size;
     }
@@ -55,22 +55,22 @@ library OrdersLib {
             uint256 quotedPrice = RedBlackTreeLib.value(ptr);
             console.log("got quoted price of %s", quotedPrice);
             /*
-                           Buy   Sell
-                price A <-  3  :   1
-                price B <-  2  :   3
+                __|__Sell__|__Buy__
+                A |    3   |   1
+                B |    2   |   3
+                
+                (3 / 1) * (2 / 3) = 2 > 1
+                there's a match!
 
-                price A * price B = 3 * 2 / 3 = 2
-                2 > 1, so there's no match
+                __|__Sell__|__Buy__
+                A |    1   |   5
+                B |    1   |   3
 
-                           Buy   Sell
-                price A <-  2  :   1
-                price B <-  1  :   3
-
-                2 * 1 / 3 = 2 / 3
-                2 / 3 < 1, so there's a match
+                (1/5) * (1/3) = 1/15 < 1
+                there's no match.
             */
             if (
-                FixedPointMathLib.mulWad(order.price, quotedPrice) >
+                FixedPointMathLib.mulWad(order.price, quotedPrice) <
                 FixedPointMathLib.WAD
             ) {
                 console.log("price didnt match");
