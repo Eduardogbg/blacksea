@@ -4,6 +4,7 @@
     "compile": "hardhat compile",
     "test:unit": "hardhat test",
     "test:integration": "hardhat run scripts/localTokenTest.ts --network sapphire-local",
+    "deploy-testnet": "hardhat run scripts/localTokenTest.ts --network sapphire-testnet",
     "devnet": "docker run -it -p8545:8545 -p8546:8546 ghcr.io/oasisprotocol/sapphire-localnet -to \"bench remain brave curve frozen verify dream margin alarm world repair innocent\"",
     "token-mint": "hardhat mintTokens",
     "token-check": "hardhat checkBalance",

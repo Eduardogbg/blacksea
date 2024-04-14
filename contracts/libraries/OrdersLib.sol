@@ -7,6 +7,8 @@ import {RedBlackTreeLib} from "./RedBlackTreeLib.sol";
 import {OrderLinkedListLib} from "./OrderLinkedListLib.sol";
 import {FixedPointMathLib} from "./FixedPointMathLib.sol";
 
+import "../interfaces/IERC20.sol";
+
 library OrdersLib {
     using RedBlackTreeLib for RedBlackTreeLib.Tree;
     using OrderLinkedListLib for OrderLinkedListLib.OrderLinkedList;
@@ -15,6 +17,7 @@ library OrdersLib {
     struct Order {
         uint256 orderId;
         address owner;
+        address token;
         // base asset / quoted asset
         uint256 price;
         uint256 size;
@@ -38,7 +41,7 @@ library OrdersLib {
             .ordersByPrice[order.price];
 
         OrderLinkedListLib.OrderNode memory orderNode = OrderLinkedListLib
-            .OrderNode(order.orderId, order.owner, order.size, 0);
+            .OrderNode(order.orderId, order.token, order.owner, order.size, 0);
 
         priceOrders.append(orderNode);
     }
@@ -106,10 +109,14 @@ library OrdersLib {
 
                 // TODO: transfers
                 if (matchedSize > unmatchedSize) {
+                    uint256 abacaba = matchedSize - unmatchedSize;
+
                     uint256 remainingSize = FixedPointMathLib.divWad(
-                        matchedSize - unmatchedSize,
+                        abacaba,
                         quotedPrice
                     );
+
+                    uint256 delta = matchedOrder.size - remainingSize;
 
                     matchedOrder.size = remainingSize;
                     unmatchedSize = 0;
@@ -118,6 +125,9 @@ library OrdersLib {
                         "completely matched order; against order remaining %s",
                         remainingSize
                     );
+
+                    IERC20(matchedOrder.token).transfer(msg.sender, delta);
+                    IERC20(order.token).transfer(matchedOrder.owner, abacaba);
                 } else {
                     unmatchedSize -= matchedSize;
 
@@ -127,6 +137,9 @@ library OrdersLib {
                         matchedOrder.size,
                         unmatchedSize
                     );
+
+                    IERC20(matchedOrder.token).transfer(msg.sender, matchedOrder.size);
+                    IERC20(order.token).transfer(matchedOrder.owner, matchedSize);
 
                     matchedOrders.shift();
                 }

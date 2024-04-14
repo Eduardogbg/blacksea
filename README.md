@@ -33,7 +33,7 @@ The app is live at the Oasis Sapphire Testnet at the following addresses:
 | Contract  | Address |
 | ------------- | ------------- |
 | Token FakeETH  | insert  |
-| Token BLKSEA  | insert  |
+| Token BS  | insert  |
 | BlackSea Core  | insert  |
 
 You can test it by running the following steps:

@@ -8,6 +8,7 @@ import {OrderLinkedListLib} from "./libraries/OrderLinkedListLib.sol";
 import {FixedPointMathLib} from "./libraries/FixedPointMathLib.sol";
 import {OrdersLib} from "./libraries/OrdersLib.sol";
 import {IBlackSea} from "./interfaces/IBlackSea.sol";
+import {SettlementEngine} from "./SettlementEngine.sol";
 
 contract BlackSea is IBlackSea {
     using RedBlackTreeLib for RedBlackTreeLib.Tree;

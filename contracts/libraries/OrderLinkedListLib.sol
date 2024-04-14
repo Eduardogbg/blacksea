@@ -4,6 +4,7 @@ pragma solidity ^0.8.9;
 library OrderLinkedListLib {
     struct OrderNode {
         uint256 orderId;
+        address token;
         address owner;
         uint256 size;
         uint256 next;

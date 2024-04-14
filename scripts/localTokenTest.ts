@@ -10,9 +10,11 @@ async function main() {
     const signers = await ethers.getSigners();
     // const signer0 = 
     const signer0 = signers[0];
+    console.log(signer0.address);
 
     const PrivateERC20 = await ethers.getContractFactory('PrivateERC20');
     const BalanceRegistry = await ethers.getContractFactory('ConfidentialBalanceRegistry');
+    const Orderbook = await ethers.getContractFactory('BlackSea');
 
     const registry = await BalanceRegistry.deploy(
         signers[0].address,
@@ -22,23 +24,37 @@ async function main() {
     const token = await PrivateERC20.deploy(
         {
             totalSupplyVisible: true,
-            name: "token",
-            symbol: "TKN",
-            decimals: 10
+            name: "fakeETH",
+            symbol: "ETH",
+            decimals: 18
+        },
+        "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F",
+        await registry.getAddress()
+    );
+    const token2 = await PrivateERC20.deploy(
+        {
+            totalSupplyVisible: true,
+            name: "BlackSea",
+            symbol: "BS",
+            decimals: 18
         },
         "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F",
         await registry.getAddress()
     );
     const tokenAddress = await token.getAddress();
 
-    console.log('Registry deployed to:', await registry.getAddress());
-    console.log('Token deployed to:', tokenAddress);
+    const orderbook = await Orderbook.deploy(tokenAddress, await token2.getAddress());
+
+
+    console.log('Token ETH deployed at:', tokenAddress);
+    console.log('Token BS deployed at:', await token2.getAddress());
+    console.log('Orderbook deployed to: ', await orderbook.getAddress())
 
     const tx = await token.connect(signers[1]).mint(signer0.address, 1000);
     const tx2 = await token.mint(signers[1].address, 1000);
 
     console.log("balance:", await token.balanceOf(signers[1]));
-    console.log("balance:", await token.connect(signers[1]).balanceOf(signer0.address));
+    console.log("balance:", await token.balanceOf(signer0.address));
 
 }
 
