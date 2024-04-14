@@ -28,6 +28,35 @@ The current version uses IllumineX's confidential ERC20 tokens to guarantee anon
 
 ![application flow](./assets/blackSea-contrats.png)
 
+# Testing the Application
+The app is live at the Oasis Sapphire Testnet at the following addresses:
+| Contract  | Address |
+| ------------- | ------------- |
+| Token FakeETH  | insert  |
+| Token BLKSEA  | insert  |
+| BlackSea Core  | insert  |
+
+You can test it by running the following steps:
+1. Create an Ethereum compatible keypair, add Sapphire testnet $ROSA to it using the [faucet](https://faucet.testnet.oasis.dev/) (remember to select Sapphire)
+2. Open your terminal and run `npm install` to install all project dependencies
+3. Load your private key in your terminal using `export PRIVATE_KEY=[your_key]`(Remember to only use dummy test accounts that don't hold real funds in any blockchain)
+4. You can now check your balance of test tokens by running `npm run token-check`
+5. Mint test tokens by running `npm run token-mint <amount-to-mint>`
+6. Place secret orders in the orderbook by running `npm run order-send <tokenToBuy> <tokenToSell> <quantityToBuy> <quantityToSell>`
+7. You can see all your pending orders by running `npm run order-check`
+8. To play around and see trades happening you can spin up a second terminal, with a different private key and experiment trading between them
+
+### More on creating orders
+Orders are created as limit orders in the protocol. That means you as a trader specify a price and it is always going to execute with the specified price or better.
+Your order is only going to be executed if there is another order in the opposite direction.
+Parameters:
+- `tokenToBuy` - token that the trader wants to acquire
+- `tokenToSell` - token that the trader wants to use to pay for `<tokenToBuy>`
+- `quantityToBuy` - how many tokens the trader wants to acquire
+- `quantityToSell` - how many tokens the trader wants to give
+
+The price of the limit order is determined inside the contract by diving `quantityToBuy/quantityToSell`
+
 # Future Features
 BlackSea was built as a hackathon project in ETHDam 2024 to showcase the potential of privacy preserving applications to improve the DeFi ecosystem. It is, however, still a proof of concept.
 
