@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black; /* Set the background color */
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  color: white; /* Set text color to white for contrast */
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: black;
+}
+
+.wallet-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+button {
+  background-color: navy;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkblue;
+}
+
+input, label {
+  margin: 5px;
+  padding: 8px;
+}
+
+input[type="text"], input[type="number"] {
+  background-color: #333;
+  border: 1px solid #555;
+  color: white;
+}
+
+.trading-engine, .orders-section {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #666;
+}
+
+/* Additional styles for status colors */
+td.status-open {
+  color: orange; /* Color for 'Open' status */
+}
+
+td.status-completed {
+  color: green; /* Color for 'Completed' status */
+}
