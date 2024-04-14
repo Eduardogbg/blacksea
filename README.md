@@ -60,7 +60,8 @@ The price of the limit order is determined inside the contract by diving `quanti
 # Future Features
 BlackSea was built as a hackathon project in ETHDam 2024 to showcase the potential of privacy preserving applications to improve the DeFi ecosystem. It is, however, still a proof of concept.
 
-There are 2 important features to be improved to bring the application to production:
+There are 3 important features to be improved to bring the application to production:
 
-Bridgeless settlement - we intend to build an escrowing technology that leverages Oasis' native keypair and signature generation precompiles to allow BlackSea to process fund settlements in the native chain, without having to bridge them over to Sapphire
-Side channel resistancy - we intend to conduct a full audit with TEE experts to patch any possible side channel data leakage, guaranteeing full information privacy for trades
+- Bridgeless settlement - we intend to build an escrowing technology that leverages Oasis' native keypair and signature generation precompiles to allow BlackSea to process fund settlements in the native chain, without having to bridge them over to Sapphire
+- Side channel resistancy - we intend to conduct a full audit with TEE experts to patch any possible side channel data leakage, guaranteeing full information privacy for trades
+- Cancel order feature - current implementation is missing the `cancelOrder` function, we need to redesign the data structure to allow for O(log(n)) cancellations. This is an easy feature to add that we didn't have time to finish during the hackathon
