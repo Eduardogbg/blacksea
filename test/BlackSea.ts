@@ -6,7 +6,7 @@ import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { OrdersLib } from "../typechain-types/contracts/BlackSea";
-
+import { Signer } from 'ethers';
 const CONTRACT_NAME = "BlackSea";
 
 const WAD = BigInt(1e18);
@@ -72,6 +72,66 @@ describe(CONTRACT_NAME, function () {
         addressB,
         ordersB[0]
       );
+    });
+
+    it("returns orders by id", async function () {
+      const { blacksea, owner } = await loadFixture(darkOrderbookFixture);
+
+      const ordersA: OrdersLib.OrderStruct[] = [
+        {
+          orderId: 1,
+          owner,
+          price: WAD,
+          size: WAD,
+        }
+      ];
+
+      await blacksea.placeOrder(
+        addressA,
+        ordersA[0]
+      );
+
+      const result = await blacksea.getOrder(ordersA[0].orderId);
+      console.log({ result });
+    });
+
+    it("returns author's orders by id", async function () {
+      const { blacksea, owner } = await loadFixture(darkOrderbookFixture);
+
+      const [_, __, ___, anotherAccount] = await ethers.getSigners();
+
+      type SignerOrders = {
+        signer: Signer;
+        order: OrdersLib.OrderStruct
+      }
+      const signerOrdersA: SignerOrders[] = [
+        {
+          signer: owner,
+          order: {
+            orderId: 1,
+            owner,
+            price: WAD,
+            size: WAD,
+          },
+        },
+        {
+          signer: anotherAccount,
+          order: {
+            orderId: 2,
+            owner: anotherAccount,
+            price: BigInt(6) * WAD / BigInt(5),
+            size: WAD,
+          }
+        }
+
+      ];
+
+      for (const { signer, order } of signerOrdersA) {
+        await blacksea.connect(signer).placeOrder(addressA, order);
+      }
+
+      const result = await blacksea.getAuthorOrders();
+      console.log({ result })
     });
   });
 });
