@@ -14,7 +14,7 @@ task("checkBalance", "Checks balance for user")
         const tokenBlkSea = process.env.TOKEN_BLKSEA_ACCOUNT!;
         const signer = sapphire
             .wrap(new ethers.Wallet(traderAddress))
-            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.localnet.defaultGateway));
+            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.testnet.defaultGateway));
 
         const contractFakeEth = new ethers.Contract(tokenFakeEthAddress, abi.abi, signer);
         const contractBlkSea = new ethers.Contract(tokenFakeEthAddress, abi.abi, signer);
@@ -39,7 +39,7 @@ task("mintTokens", "Mints both test tokens for the user")
         const tokenBlkSea = process.env.TOKEN_BLKSEA_ACCOUNT!;
         const signer = sapphire
             .wrap(new ethers.Wallet(traderAddress))
-            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.localnet.defaultGateway));
+            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.testnet.defaultGateway));
 
         const contractFakeEth = new ethers.Contract(tokenFakeEthAddress, abi.abi, signer);
         const contractBlkSea = new ethers.Contract(tokenFakeEthAddress, abi.abi, signer);
@@ -67,7 +67,7 @@ task("placeOrder", "Places a limit order in the orderbook")
         const orderbook = process.env.ORDERBOOK_ACCOUNT!;
         const signer = sapphire
             .wrap(new ethers.Wallet(traderAddress))
-            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.localnet.defaultGateway));
+            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.testnet.defaultGateway));
 
         const contract = new ethers.Contract(orderbook, abiOrderbook.abi, signer);
         // const contractFakeEth = new ethers.Contract(tokenFakeEthAddress, abi.abi, signer);
@@ -97,7 +97,7 @@ task("checkOrders", "Returns pending orders for trader")
         const orderbook = process.env.ORDERBOOK_ACCOUNT!;
         const signer = sapphire
             .wrap(new ethers.Wallet(traderAddress))
-            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.localnet.defaultGateway));
+            .connect(ethers.getDefaultProvider(sapphire.NETWORKS.testnet.defaultGateway));
 
         const contract = new ethers.Contract(orderbook, abiOrderbook.abi, signer);
 
