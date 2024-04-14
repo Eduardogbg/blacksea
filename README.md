@@ -42,7 +42,7 @@ You can test it by running the following steps:
 3. Load your private key in your terminal using `export PRIVATE_KEY=[your_key]`(Remember to only use dummy test accounts that don't hold real funds in any blockchain)
 4. You can now check your balance of test tokens by running `npm run token-check`
 5. Mint test tokens by running `npm run token-mint <amount-to-mint>`
-6. Place secret orders in the orderbook by running `npm run order-send <tokenToBuy> <tokenToSell> <quantityToBuy> <quantityToSell>`
+6. Place secret orders in the orderbook by running `npm run order-send <token> <price> <size>`
 7. You can see all your pending orders by running `npm run order-check`
 8. To play around and see trades happening you can spin up a second terminal, with a different private key and experiment trading between them
 
@@ -50,10 +50,9 @@ You can test it by running the following steps:
 Orders are created as limit orders in the protocol. That means you as a trader specify a price and it is always going to execute with the specified price or better.
 Your order is only going to be executed if there is another order in the opposite direction.
 Parameters:
-- `tokenToBuy` - token that the trader wants to acquire
-- `tokenToSell` - token that the trader wants to use to pay for `<tokenToBuy>`
-- `quantityToBuy` - how many tokens the trader wants to acquire
-- `quantityToSell` - how many tokens the trader wants to give
+- `token` - token that the trader wants to sell
+- `price` - price to sell token for
+- `size` - how much of the token to sell
 
 The price of the limit order is determined inside the contract by diving `quantityToBuy/quantityToSell`
 
