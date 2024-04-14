@@ -29,7 +29,6 @@ async function main() {
         "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F",
         await registry.getAddress()
     );
-    console.log("token: ", token);
     const tokenAddress = await token.getAddress();
 
     console.log('Registry deployed to:', await registry.getAddress());
