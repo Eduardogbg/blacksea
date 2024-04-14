@@ -2,19 +2,34 @@
 pragma solidity ^0.8.19;
 
 import "hardhat/console.sol";
-import "./BokkyPooBahsRedBlackTreeLibrary.sol";
+
+import {RedBlackTreeLib} from "./RedBlackTreeLib.sol";
+import {OrderLinkedListLib} from "./OrderLinkedListLib.sol";
+import {FixedPointMathLib} from "./FixedPointMathLib.sol";
+import {OrdersLib} from "./OrdersLib.sol";
 
 contract DarkOrderbook {
-    using BokkyPooBahsRedBlackTreeLibrary for BokkyPooBahsRedBlackTreeLibrary.Tree;
+    using RedBlackTreeLib for RedBlackTreeLib.Tree;
+    using OrderLinkedListLib for OrderLinkedListLib.OrderLinkedList;
+    using OrderLinkedListLib for OrderLinkedListLib.OrderNode;
+    using OrdersLib for OrdersLib.PairSideOrders;
+    using OrdersLib for OrdersLib.Order;
 
-    BokkyPooBahsRedBlackTreeLibrary.Tree tree;
+    OrdersLib.PairSideOrders ordersAssetA;
+    OrdersLib.PairSideOrders ordersAssetB;
 
-    constructor() public {}
+    function abacaba(
+        OrdersLib.Order[] calldata ordersA,
+        OrdersLib.Order[] calldata ordersB
+    ) public {
+        //OrdersLib.Order(1, msg.sender, 2, 10)
 
-    function abacaba() internal returns (uint256) {
-        tree.insert(2);
-        tree.insert(5);
+        for (uint i = 0; i < ordersA.length; ++i) {
+            ordersAssetA.appendOrder(ordersA[i], ordersAssetB);
+        }
 
-        return tree.max();
+        for (uint i = 0; i < ordersB.length; ++i) {
+            ordersAssetB.appendOrder(ordersB[i], ordersAssetA);
+        }
     }
 }
