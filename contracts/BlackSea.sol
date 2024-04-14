@@ -14,7 +14,5 @@ contract BlackSea {
     function cancelOrder() external {
 
     }
-
-    function
     
 }

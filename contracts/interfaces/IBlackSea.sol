@@ -9,7 +9,7 @@ interface IBlackSea {
         address sellToken,
         address buyToken,
         uint128 sellQuantity,
-        uint128 buyQuantity,
+        uint128 buyQuantity
     ) external;
 
     function cancelOrder(

@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 import "hardhat/console.sol";
-import "./interfaces/ISettlementEngine.sol";
 import "./interfaces/IERC20.sol";
 
 contract SettlementEngine {
@@ -14,7 +13,7 @@ contract SettlementEngine {
         uint256 _amount
     ) internal {
         _token.transferFrom(_trader, address(this), _amount);
-    };
+    }
 
     function _releaseFunds(
         IERC20 _token,
@@ -22,5 +21,5 @@ contract SettlementEngine {
         uint256 _amount
     ) internal {
         _token.transfer(_trader, _amount);
-    };
+    }
 }
