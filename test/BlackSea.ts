@@ -12,14 +12,20 @@ const CONTRACT_NAME = "BlackSea";
 const WAD = BigInt(1e18);
 
 describe(CONTRACT_NAME, function () {
+  let addressA: string, addressB: string;
+
   async function darkOrderbookFixture() {
-    const [owner, other] = await ethers.getSigners();
+    const [owner, _, signerA, signerB] = await ethers.getSigners();
     const BlackSea = await ethers.getContractFactory(CONTRACT_NAME);
+
+    addressA = await signerA.getAddress();
+    addressB = await signerB.getAddress();
 
     return {
       blacksea: await BlackSea.deploy(
-        "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F",
-        "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F"),
+        addressA,
+        addressB
+      ),
       owner
     }
   }
@@ -52,9 +58,19 @@ describe(CONTRACT_NAME, function () {
         }
       ];
 
-      const abacaba = await blacksea.placeOrder(
-        "0xf6FdcacbA93A428A07d27dacEf1fBF25E2C65B0F",
+      await blacksea.placeOrder(
+        addressA,
         ordersA[0]
+      );
+
+      await blacksea.placeOrder(
+        addressA,
+        ordersA[1]
+      );
+
+      await blacksea.placeOrder(
+        addressB,
+        ordersB[0]
       );
     });
   });
