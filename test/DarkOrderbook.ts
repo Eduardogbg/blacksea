@@ -5,26 +5,13 @@ import {
 import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
+import { OrdersLib } from "../typechain-types/DarkOrderbook";
 
 const CONTRACT_NAME = "DarkOrderbook";
 
+const WAD = BigInt(1e18);
+
 describe(CONTRACT_NAME, function () {
-  async function deployOneYearLockFixture() {
-    const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-    const ONE_GWEI = 1_000_000_000;
-
-    const lockedAmount = ONE_GWEI;
-    const unlockTime = (await time.latest()) + ONE_YEAR_IN_SECS;
-
-    // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await ethers.getSigners();
-
-    const Lock = await ethers.getContractFactory("Lock");
-    const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-    return { lock, unlockTime, lockedAmount, owner, otherAccount };
-  }
-
   async function darkOrderbookFixture() {
     const [owner] = await ethers.getSigners();
     const DarkOrderbook = await ethers.getContractFactory(CONTRACT_NAME);
@@ -35,10 +22,35 @@ describe(CONTRACT_NAME, function () {
     }
   }
 
-  describe("Deploymenta function", () => {
-    it("Should set the right unlockTime", async function () {
+  describe("abacaba", () => {
+    it("tree insert then max works", async function () {
       const { orderbook, owner } = await loadFixture(darkOrderbookFixture);
 
+      const ordersA: OrdersLib.OrderStruct[] = [
+        {
+          orderId: 1,
+          owner,
+          price: WAD,
+          size: WAD,
+        },
+        {
+          orderId: 2,
+          owner,
+          price: BigInt(5) * WAD / BigInt(6),
+          size: WAD,
+        }
+      ];
+
+      const ordersB: OrdersLib.OrderStruct[] = [
+        {
+          orderId: 37,
+          owner,
+          price: WAD,
+          size: BigInt(10) * WAD,
+        }
+      ];
+
+      const abacaba = await orderbook.abacaba(ordersA, ordersB);
     });
   });
 });
